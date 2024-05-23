@@ -284,21 +284,21 @@ func (h *handler) appendTime(buf *buffer, t time.Time) {
 func (h *handler) appendLevel(buf *buffer, level slog.Level) {
 	switch {
 	case level < slog.LevelInfo:
-		buf.WriteString("DEBG")
+		buf.WriteString("DBG")
 		appendLevelDelta(buf, level-slog.LevelDebug)
 	case level < slog.LevelWarn:
 		buf.WriteStringIf(!h.noColor, ansiBrightGreen)
-		buf.WriteString("INF0")
+		buf.WriteString("INF")
 		appendLevelDelta(buf, level-slog.LevelInfo)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	case level < slog.LevelError:
 		buf.WriteStringIf(!h.noColor, ansiBrightYellow)
-		buf.WriteString("WARN")
+		buf.WriteString("WRN")
 		appendLevelDelta(buf, level-slog.LevelWarn)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	default:
 		buf.WriteStringIf(!h.noColor, ansiBrightRed)
-		buf.WriteString("ERRO")
+		buf.WriteString("ERR")
 		appendLevelDelta(buf, level-slog.LevelError)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	}
