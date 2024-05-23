@@ -74,6 +74,7 @@ const (
 	ansiBrightGreen    = "\033[92m"
 	ansiBrightYellow   = "\033[93m"
 	ansiBrightRedFaint = "\033[91;2m"
+	ansiCyan           = "\033[36m"
 )
 
 const errKey = "err"
@@ -284,21 +285,23 @@ func (h *handler) appendTime(buf *buffer, t time.Time) {
 func (h *handler) appendLevel(buf *buffer, level slog.Level) {
 	switch {
 	case level < slog.LevelInfo:
-		buf.WriteString("DBG")
+		buf.WriteStringIf(!h.noColor, ansiCyan)
+		buf.WriteString("DEBG")
 		appendLevelDelta(buf, level-slog.LevelDebug)
+		buf.WriteStringIf(!h.noColor, ansiReset)
 	case level < slog.LevelWarn:
 		buf.WriteStringIf(!h.noColor, ansiBrightGreen)
-		buf.WriteString("INF")
+		buf.WriteString("INFO")
 		appendLevelDelta(buf, level-slog.LevelInfo)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	case level < slog.LevelError:
 		buf.WriteStringIf(!h.noColor, ansiBrightYellow)
-		buf.WriteString("WRN")
+		buf.WriteString("WARN")
 		appendLevelDelta(buf, level-slog.LevelWarn)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	default:
 		buf.WriteStringIf(!h.noColor, ansiBrightRed)
-		buf.WriteString("ERR")
+		buf.WriteString("ERRO")
 		appendLevelDelta(buf, level-slog.LevelError)
 		buf.WriteStringIf(!h.noColor, ansiReset)
 	}
