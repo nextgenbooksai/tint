@@ -63,7 +63,6 @@ import (
 	"strconv"
 	"sync"
 	"time"
-	"unicode"
 )
 
 // ANSI modes
@@ -416,12 +415,15 @@ func needsQuoting(s string) bool {
 	if len(s) == 0 {
 		return true
 	}
-	for _, r := range s {
-		if unicode.IsSpace(r) || r == '"' || r == '=' || !unicode.IsPrint(r) {
-			return true
-		}
-	}
 	return false
+	/*
+		for _, r := range s {
+			if unicode.IsSpace(r) || r == '"' || r == '=' || !unicode.IsPrint(r) {
+				return true
+			}
+		}
+		return false
+	*/
 }
 
 type tintError struct{ error }
